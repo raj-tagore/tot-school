@@ -5,98 +5,130 @@
         </h2>
     </x-slot>
 
-    <div class="p-10">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <div class="p-5 text-center">
+        <h2 class="fw-semibold fs-5 text-light mb-0">
             Overall Leaderboards
         </h2>
     </div>
 
-    <div class="grid md:grid-cols-3 mx-auto p-5">
-        <table class="w-11/12 table-auto p-5">
-            <thead>
-                <tr class="bg-gray-800 text-gray-100 uppercase text-sm leading-normal">
-                    <th class="py-3 px-6 text-left">Rank</th>
-                    <th class="py-3 px-6 text-left">Candidate</th>
-                    <th class="py-3 px-6 text-right">Calls</th>
-                </tr>
-            </thead>
-            <tbody class="text-gray-200 text-sm font-light">
-                @foreach ($topUsersByCalls as $user)
-                    <tr class="border-b border-gray-200">
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                            #{{ $loop->iteration }}
-                        </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->name }}
-                        </td>
-                        <td class="py-3 px-6 text-right">
-                            {{ $user->calls }}
-                        </td>
+    <div class="mx-auto p-5 row">
+        <div class="table-responsive col-lg-6">
+            <table class="table w-75 mx-auto my-5">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col" class="text-left">Rank</th>
+                        <th scope="col" class="text-left">Candidate</th>
+                        <th scope="col" class="text-right">Calls</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <table class="w-11/12 table-auto p-5">
-            <thead>
-                <tr class="bg-gray-800 text-gray-100 uppercase text-sm leading-normal">
-                    <th class="py-3 px-6 text-left">Rank</th>
-                    <th class="py-3 px-6 text-left">Candidate</th>
-                    <th class="py-3 px-6 text-right">Demonstrations</th>
-                </tr>
-            </thead>
-            <tbody class="text-gray-200 text-sm font-light">
-                @foreach ($topUsersByDemos as $user)
-                    <tr class="border-b border-gray-200">
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                            #{{ $loop->iteration }}
-                        </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->name }}
-                        </td>
-                        <td class="py-3 px-6 text-right">
-                            {{ $user->demonstrations }}
-                        </td>
+                </thead>
+                <tbody class="text-secondary">
+                    @foreach ($topUsersByCalls as $user)
+                        <tr>
+                            <td class="text-left">
+                                #{{ $loop->iteration }}
+                            </td>
+                            <td class="text-left">
+                                {{ $user->name }}
+                            </td>
+                            <td class="text-right">
+                                {{ $user->calls }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive col-lg-6">
+            <table class="table w-75 mx-auto my-5">
+                <thead class="bg-dark text-light">
+                    <tr>
+                        <th scope="col" class="text-left">Rank</th>
+                        <th scope="col" class="text-left">Candidate</th>
+                        <th scope="col" class="text-right">Leads Registered</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <table class="w-11/12 table-auto p-5">
-            <thead>
-                <tr class="bg-gray-800 text-gray-100 uppercase text-sm leading-normal">
-                    <th class="py-3 px-6 text-left">Rank</th>
-                    <th class="py-3 px-6 text-left">Candidate</th>
-                    <th class="py-3 px-6 text-right">Deals Closed</th>
-                </tr>
-            </thead>
-            <tbody class="text-gray-200 text-sm font-light">
-                @foreach ($topUsersByDeals as $user)
-                    <tr class="border-b border-gray-200">
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                            #{{ $loop->iteration }}
-                        </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->name }}
-                        </td>
-                        <td class="py-3 px-6 text-right">
-                            {{ $user->deals_closed }}
-                        </td>
+                </thead>
+                <tbody class="text-secondary">
+                    @foreach ($topUsersByDeals as $user)
+                        <tr>
+                            <td class="text-left">
+                                #{{ $loop->iteration }}
+                            </td>
+                            <td class="text-left">
+                                {{ $user->name }}
+                            </td>
+                            <td class="text-right">
+                                {{ $user->registered_leads }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive col-lg-6">
+            <table class="table w-75 mx-auto my-5">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col" class="text-left">Rank</th>
+                        <th scope="col" class="text-left">Candidate</th>
+                        <th scope="col" class="text-right">Demonstrations</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>   
+                </thead>
+                <tbody class="text-secondary">
+                    @foreach ($topUsersByDemos as $user)
+                        <tr>
+                            <td class="text-left">
+                                #{{ $loop->iteration }}
+                            </td>
+                            <td class="text-left">
+                                {{ $user->name }}
+                            </td>
+                            <td class="text-right">
+                                {{ $user->demonstrations }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive col-lg-6">
+            <table class="table w-75 mx-auto my-5">
+                <thead class="bg-dark text-light">
+                    <tr>
+                        <th scope="col" class="text-left">Rank</th>
+                        <th scope="col" class="text-left">Candidate</th>
+                        <th scope="col" class="text-right">Deals Closed</th>
+                    </tr>
+                </thead>
+                <tbody class="text-secondary">
+                    @foreach ($topUsersByDeals as $user)
+                        <tr>
+                            <td class="text-left">
+                                #{{ $loop->iteration }}
+                            </td>
+                            <td class="text-left">
+                                {{ $user->name }}
+                            </td>
+                            <td class="text-right">
+                                {{ $user->deals_closed }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>       
     </div>  
     
 
-    <div class="p-10">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <div class="p-5 text-center">
+        <h2 class="fw-semibold fs-5 text-light mb-0">
             Your Statistics
         </h2>
     </div>
 
-    <div class="p-2 grid sm:grid-cols-6">
+    <div class="p-5 row">
         
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->visits}}
                 </div>
@@ -106,8 +138,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->calls}}
                 </div>
@@ -117,8 +149,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->leads}}
                 </div>
@@ -128,8 +160,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->registered_leads}}
                 </div>
@@ -139,8 +171,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->phone_calls}}
                 </div>
@@ -150,8 +182,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->calls_confirmed}}
                 </div>
@@ -161,8 +193,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->presentations}}
                 </div>
@@ -172,8 +204,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->demonstrations}}
                 </div>
@@ -183,8 +215,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->letters}}
                 </div>
@@ -194,8 +226,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->second_visits}}
                 </div>
@@ -205,8 +237,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->proposals}}
                 </div>
@@ -216,8 +248,8 @@
             </div>
         </div>
 
-        <div class="mx-fill p-2">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-fill p-2 col-6 col-md-2 mb-4">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-xl font-bold text-gray-900 dark:text-gray-100">
                     {{$totalTally->deals_closed}}
                 </div>
