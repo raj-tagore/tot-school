@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function totalTally() {
+        return $this->hasOne(TotalTally::class, 'user_id');
+    }
+
+    public function dailyTally() {
+        return $this->hasMany(DailyTally::class, 'user_id');
+    }
 }
