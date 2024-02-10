@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TotalTally extends Model
 {
-    use HasFactory;
-    protected $table = 'total_tallies';
+    protected $table = 'total_tallies'; // Ensure the model uses the correct table
     public $timestamps = false;
-
+    // Dynamically set fillable fields based on config
     protected $fillable = [
         'user_id',
         'visits',
@@ -31,4 +29,5 @@ class TotalTally extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

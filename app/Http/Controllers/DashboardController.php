@@ -24,25 +24,13 @@ class DashboardController extends Controller
             $totalTally->save();
         }
 
-        $topUsersByCalls = TotalTally::orderByDesc('calls')->take(5)->get()->map(function ($user) {
-            $user->name = User::find($user->user_id)->name;
-            return $user;
-        });
-
-        $topUsersByDeals = TotalTally::orderByDesc('deals_closed')->take(5)->get()->map(function ($user) {
-            $user->name = User::find($user->user_id)->name;
-            return $user;
-        });
-
-        $topUsersByDemos = TotalTally::orderByDesc('demonstrations')->take(5)->get()->map(function ($user) {
+        $allUsers = TotalTally::all()->map(function ($user) {
             $user->name = User::find($user->user_id)->name;
             return $user;
         });
 
         return view('dashboard', ['totalTally' => $totalTally, 
-                                'topUsersByCalls' => $topUsersByCalls, 
-                                'topUsersByDeals' => $topUsersByDeals,
-                                'topUsersByDemos' => $topUsersByDemos,
+                                'allUsers' => $allUsers,
                             ]);
     }
 }

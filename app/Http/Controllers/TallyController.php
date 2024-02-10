@@ -56,8 +56,8 @@ class TallyController extends Controller
             $newEntry = DailyTally::create($validatedData);
             if (TotalTally::where('user_id', $validatedData['user_id'])->exists()) {
                 $existingValues = TotalTally::where('user_id', $validatedData['user_id'])->first()->toArray();
-                $columns = ['visits', 'calls', 'leads', 'registered_leads', 'phone_calls', 'calls_confirmed', 'presentations', 'demonstrations', 'letters', 'second_visits', 'proposals', 'deals_closed'];
-                foreach ($columns as $column) {
+                $columns = config('columns.columns');
+                foreach ($columns as $column => $data) {
                     $existingValues[$column] = $existingValues[$column] + $validatedData[$column];
                 }
                 TotalTally::where('user_id', $validatedData['user_id'])->update($existingValues);
