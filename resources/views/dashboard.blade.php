@@ -86,7 +86,7 @@
         $dateTime2 = DateTime::createFromFormat('d-m-Y', $date2);
 
         // Calculate the difference
-        $difference = $dateTime1->diff($dateTime2)->days;
+        $difference = $dateTime1->diff($dateTime2)->days + 1;
         
     @endphp
     <h2 class="display-8 pb-3">Your Statistics (Day: {{$difference}})</h2>
@@ -101,6 +101,14 @@
                 </div>
             </div>
         @endforeach
+        <div class="col-6 col-md-4 col-lg-2 mb-4"> <!-- Adjust sizes here -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ $count }} / {{ $difference }} </h5>
+                    <p class="card-text"> Attendance </p>
+                </div>
+            </div>
+        </div>
     </div>
     @php
         $name = $allUsers->firstWhere('user_id', $totalTally['user_id'])->name ?? 'Enter name here';

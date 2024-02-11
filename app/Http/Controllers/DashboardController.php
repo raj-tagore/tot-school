@@ -16,6 +16,8 @@ class DashboardController extends Controller
         $totalTally = TotalTally::where('user_id', $user_id)->first();
         $todaysTally = DailyTally::where('user_id', $user_id)->where('date', Carbon::today())->first();
 
+        $count = DailyTally::where('user_id', $user_id)->count();
+
         if ($todaysTally === null) {
             $todaysTally = collect(config('columns.columns'))->mapWithKeys(function ($item, $key) {
                 // Use the 'name' as the key and initialize 'value' to 0
@@ -41,6 +43,7 @@ class DashboardController extends Controller
         return view('dashboard', ['totalTally' => $totalTally,
                                 'todaysTally' => $todaysTally, 
                                 'allUsers' => $allUsers,
+                                'count' => $count,
                             ]);
     }
 }
