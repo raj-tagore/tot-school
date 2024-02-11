@@ -78,7 +78,7 @@
         $columns = config('columns.columns'); 
 
         // Your dates in d-m-Y format
-        $date1 = $totalTally['created_at'];
+        $date1 = $totalTally['created_at'] ?? "2024-01-01 00:00:00";
         $date2 = date('d-m-Y');
 
         // Convert strings to DateTime objects
