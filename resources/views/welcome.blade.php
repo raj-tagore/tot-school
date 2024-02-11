@@ -35,8 +35,8 @@
                 <div class="mt-16">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                         <div>
-                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Welcome To TOT School</h2>
-                            <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Login or Register (top right corner) to get started.</p>
+                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Welcome to TOT School</h2>
+                            <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Login or Register to get started.</p>
                         </div>
                     </div>
                 </div>

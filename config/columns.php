@@ -2,11 +2,6 @@
 
 return [
     'columns' => [
-        'visits' => [
-            'type' => 'number',
-            'label' => 'Visits',
-            'required' => true,
-        ],
         'calls' => [
             'type' => 'number',
             'label' => 'Calls',
@@ -17,49 +12,44 @@ return [
             'label' => 'Leads',
             'required' => true,
         ],
-        'registered_leads' => [
-            'type' => 'number',
-            'label' => 'Leads Registered',
-            'required' => true,
-        ],
         'phone_calls' => [
             'type' => 'number',
             'label' => 'Phone Calls Made',
             'required' => true,
         ],
-        'calls_confirmed' => [
+        'appointments' => [
             'type' => 'number',
-            'label' => 'Calls Confirmed',
+            'label' => 'Appointments',
             'required' => true,
         ],
-        'presentations' => [
+        'meetings' => [
             'type' => 'number',
-            'label' => 'Presentations Given',
-            'required' => true,
-        ],
-        'demonstrations' => [
-            'type' => 'number',
-            'label' => 'Demonstrations Given',
+            'label' => 'Meetings',
             'required' => true,
         ],
         'letters' => [
             'type' => 'number',
-            'label' => 'Letters Sent',
+            'label' => 'Follow Up Letters Sent',
             'required' => true,
         ],
-        'second_visits' => [
+        'follow_ups' => [
             'type' => 'number',
-            'label' => 'Second Visits',
+            'label' => 'Follow Ups',
             'required' => true,
         ],
         'proposals' => [
             'type' => 'number',
-            'label' => 'Proposals',
+            'label' => 'Brahmastra Proposals Given',
             'required' => true,
         ],
-        'deals_closed' => [
+        'policies' => [
             'type' => 'number',
-            'label' => 'Deals Closed',
+            'label' => 'Policies Sold',
+            'required' => true,
+        ],
+        'premium' => [
+            'type' => 'number',
+            'label' => 'Premium',
             'required' => true,
         ],
     ],

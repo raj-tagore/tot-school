@@ -11,18 +11,16 @@ class DailyTally extends Model
     protected $fillable = [
         'user_id',
         'date',
-        'visits',
         'calls',
         'leads',
-        'registered_leads',
         'phone_calls',
-        'calls_confirmed',
-        'presentations',
-        'demonstrations',
+        'appointments',
+        'meetings',
         'letters',
-        'second_visits',
+        'follow_ups',
         'proposals',
-        'deals_closed',
+        'policies',
+        'premium',
     ];
 
     // public function __construct(array $attributes = [])

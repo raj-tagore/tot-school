@@ -31,18 +31,16 @@ class TallyController extends Controller
     {   
         // Validate the request
         $validatedData = $request->validate([
-            'visits' => 'required|integer|min:0',
             'calls' => 'required|integer|min:0',
             'leads' => 'required|integer|min:0',
-            'registered_leads' => 'required|integer|min:0',
             'phone_calls' => 'required|integer|min:0',
-            'calls_confirmed' => 'required|integer|min:0',
-            'presentations' => 'required|integer|min:0',
-            'demonstrations' => 'required|integer|min:0',
+            'appointments' => 'required|integer|min:0',
+            'meetings' => 'required|integer|min:0',
             'letters' => 'required|integer|min:0',
-            'second_visits' => 'required|integer|min:0',
+            'follow_ups' => 'required|integer|min:0',
             'proposals' => 'required|integer|min:0',
-            'deals_closed' => 'required|integer|min:0',
+            'policies' => 'required|integer|min:0',
+            'premium' => 'required|integer|min:0',
         ]);
 
         // Add additional data
@@ -51,7 +49,7 @@ class TallyController extends Controller
 
         // Check if an entry exists for the given date
         if (DailyTally::where('date', $validatedData['date'])->where('user_id', $validatedData['user_id'])->exists()) {
-            return response()->json(['message' => 'Entry for this date already exists.']);
+            return redirect()->route('tally');
         } else {
             $newEntry = DailyTally::create($validatedData);
             if (TotalTally::where('user_id', $validatedData['user_id'])->exists()) {
@@ -67,7 +65,7 @@ class TallyController extends Controller
                 Arr::forget($validatedData, 'updated_at');
                 TotalTally::create($validatedData);
             }
-            return response()->json(['message' => 'New entry created successfully.', 'entry' => $newEntry]);
+            return redirect()->route('tally');
         }
     }
 }

@@ -5,13 +5,13 @@
     <h2 class="display-8 pb-3">Leaderboards</h2>
     <div class="row border-bottom mb-5">
         <div class="col-lg-4">
-            <h5>Top 5 Users by Views</h5>
+            <h5>Top 5 Users by Calls</h5>
             <table class="table border">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Total Views</th>
+                        <th scope="col">Total Calls</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,22 +28,22 @@
         </div>
         
         <div class="col-lg-4">
-            <h5>Top 5 Users by Demonstrations</h5>
+            <h5>Top 5 Users by Meetings</h5>
             <table class="table border">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Demonstrations</th>
+                        <th scope="col">Meetings</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @php $topCalls = $allUsers->sortByDesc('demonstrations'); @endphp
+                    @php $topCalls = $allUsers->sortByDesc('meetings'); @endphp
                     @foreach($topCalls->take(5) as $user)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->demonstrations }}</td>
+                            <td>{{ $user->meetings }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -51,22 +51,22 @@
         </div>
         
         <div class="col-lg-4">
-            <h5>Top 5 Users by Deals Closed</h5>
+            <h5>Top 5 Users by Premium</h5>
             <table class="table border">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Deals Closed</th>
+                        <th scope="col">Premium</th>
                     </tr>
                 </thead>
                 <tbody> 
-                    @php $topCalls = $allUsers->sortByDesc('calls'); @endphp
+                    @php $topCalls = $allUsers->sortByDesc('premium'); @endphp
                     @foreach($topCalls->take(5) as $user)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->deals_closed }}</td>
+                            <td>{{ $user->premium }}</td>
                         </tr>
                     @endforeach
                 </tbody>

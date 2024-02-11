@@ -14,18 +14,16 @@ return new class extends Migration
         Schema::create('total_tallies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('visits')->default(0);
             $table->integer('calls')->default(0);
             $table->integer('leads')->default(0);
-            $table->integer('registered_leads')->default(0);
             $table->integer('phone_calls')->default(0);
-            $table->integer('calls_confirmed')->default(0);
-            $table->integer('presentations')->default(0);
-            $table->integer('demonstrations')->default(0);
+            $table->integer('appointments')->default(0);
+            $table->integer('meetings')->default(0);
             $table->integer('letters')->default(0);
-            $table->integer('second_visits')->default(0);
+            $table->integer('follow_ups')->default(0);
             $table->integer('proposals')->default(0);
-            $table->integer('deals_closed')->default(0);
+            $table->integer('policies')->default(0);
+            $table->integer('premium')->default(0);
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
