@@ -14,6 +14,14 @@ class DashboardController extends Controller
     public function index(Request $request) {
         $user_id = auth()->id(); // Assuming the user is authenticated
         $totalTally = TotalTally::where('user_id', $user_id)->first();
+        $todaysTally = DailyTally::where('user_id', $user_id)->where('date', Carbon::today())->first();
+
+        if ($todaysTally === null) {
+            $todaysTally = collect(config('columns.columns'))->mapWithKeys(function ($item, $key) {
+                // Use the 'name' as the key and initialize 'value' to 0
+                return [$key => 0];
+            });
+        }
 
         if ($totalTally === null) {
             // Handle the case where no object is found
@@ -29,7 +37,8 @@ class DashboardController extends Controller
             return $user;
         });
 
-        return view('dashboard', ['totalTally' => $totalTally, 
+        return view('dashboard', ['totalTally' => $totalTally,
+                                'todaysTally' => $todaysTally, 
                                 'allUsers' => $allUsers,
                             ]);
     }

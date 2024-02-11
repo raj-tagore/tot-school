@@ -81,7 +81,7 @@
             <div class="col-6 col-md-4 col-lg-2 mb-4"> <!-- Adjust sizes here -->
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $totalTally->$key }}</h5>
+                        <h5 class="card-title">{{ $todaysTally[$key] }} / {{ $totalTally[$key] }}</h5>
                         <p class="card-text">{{ $label['label'] }}</p>
                     </div>
                 </div>
