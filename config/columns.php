@@ -4,7 +4,7 @@ return [
     'columns' => [
         'calls' => [
             'type' => 'number',
-            'label' => 'Calls',
+            'label' => 'Cold Calls',
             'required' => true,
         ],
         'leads' => [
@@ -24,7 +24,7 @@ return [
         ],
         'meetings' => [
             'type' => 'number',
-            'label' => 'Meetings',
+            'label' => 'First Meetings',
             'required' => true,
         ],
         'letters' => [
