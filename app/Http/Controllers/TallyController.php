@@ -29,19 +29,15 @@ class TallyController extends Controller
      */ 
     public function store(Request $request)
     {   
+        $fields = config('columns.columns', []);
+
+        $validationRules = [];
+        foreach ($fields as $key => $value) {
+            $validationRules[$key] = 'required|integer|min:0';
+        }
+        
         // Validate the request
-        $validatedData = $request->validate([
-            'calls' => 'required|integer|min:0',
-            'leads' => 'required|integer|min:0',
-            'phone_calls' => 'required|integer|min:0',
-            'appointments' => 'required|integer|min:0',
-            'meetings' => 'required|integer|min:0',
-            'letters' => 'required|integer|min:0',
-            'follow_ups' => 'required|integer|min:0',
-            'proposals' => 'required|integer|min:0',
-            'policies' => 'required|integer|min:0',
-            'premium' => 'required|integer|min:0',
-        ]);
+        $validatedData = $request->validate($validationRules);
 
         // Add additional data
         $validatedData['user_id'] = auth()->id(); // Assuming the user is authenticated
