@@ -8,34 +8,16 @@ class DailyTally extends Model
 {
     protected $table = 'daily_tallies'; // Ensure the model uses the correct table
     public $timestamps = false;
-    protected $fillable = [
-        'user_id',
-        'date',
-        'calls',
-        'leads',
-        'phone_calls',
-        'appointments',
-        'meetings',
-        'letters',
-        'follow_ups',
-        'proposals',
-        'policies',
-        'premium',
-    ];
-
-    // public function __construct(array $attributes = [])
-    // {
-    //     parent::__construct($attributes);
-
-    //     // Dynamically setting the fillable attributes based on config columns
-    //     $this->fillable = array_keys(config('columns.columns', []));
-    // }
-
-    // // Static method to get the display names of the columns
-    // public static function getColumnDisplayNames()
-    // {
-    //     return config('columns.columns', []);
-    // }
+    protected $fillable = [];
+    public function __construct($attributes = []) {
+        parent::__construct($attributes);
+        $fields2 = collect(config('columns.columns'))->keys()->all();
+        $fields1 = [
+            'user_id',
+            'date',
+        ];
+        $this->fillable = array_merge($fields1, $fields2);
+    }
 
     public function user_id()
     {

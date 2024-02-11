@@ -49,7 +49,7 @@ class TallyController extends Controller
 
         // Check if an entry exists for the given date
         if (DailyTally::where('date', $validatedData['date'])->where('user_id', $validatedData['user_id'])->exists()) {
-            return redirect()->route('tally');
+            return redirect()->route('tally'); 
         } else {
             $newEntry = DailyTally::create($validatedData);
             if (TotalTally::where('user_id', $validatedData['user_id'])->exists()) {
