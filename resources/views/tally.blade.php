@@ -8,7 +8,7 @@
                 Data submitted for today.
             </h2>
         @else
-        <h2>Form for {{date('d-m-y')}}</h2>
+        <h2>Form for {{date('d/m/Y')}}</h2>
         <form method="POST" action="{{ route('log-tally') }}">
             @csrf
 

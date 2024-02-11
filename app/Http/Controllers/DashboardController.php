@@ -28,6 +28,7 @@ class DashboardController extends Controller
             // For example, create a new TotalTally object or set a default value
             $totalTally = new TotalTally();
             $totalTally->user_id = $user_id;
+            $totalTally->setCreatedAt(Carbon::now());
             // Set other properties as required
             $totalTally->save();
         }

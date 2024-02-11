@@ -74,9 +74,23 @@
         </div>
     
     </div>
-    <h2 class="display-8 pb-3">Your Statistics</h2>
+    @php 
+        $columns = config('columns.columns'); 
+
+        // Your dates in d-m-Y format
+        $date1 = $totalTally['created_at'];
+        $date2 = date('d-m-Y');
+
+        // Convert strings to DateTime objects
+        $dateTime1 = DateTime::createFromFormat('Y-m-d H:i:s', $date1);
+        $dateTime2 = DateTime::createFromFormat('d-m-Y', $date2);
+
+        // Calculate the difference
+        $difference = $dateTime1->diff($dateTime2)->days;
+        
+    @endphp
+    <h2 class="display-8 pb-3">Your Statistics (Day: {{$difference}})</h2>
     <div class="row justify-content-center">
-        @php $columns = config('columns.columns'); @endphp
         @foreach($columns as $key => $label)
             <div class="col-6 col-md-4 col-lg-2 mb-4"> <!-- Adjust sizes here -->
                 <div class="card">
@@ -89,7 +103,8 @@
         @endforeach
     </div>
     @php
-        $message = "TOT School Report for: ". date('d-m-y') ."\n";
+        $name = $allUsers->firstWhere('user_id', $totalTally['user_id'])->name ?? 'Enter name here';
+        $message = "TOT School Report for: Day ". $difference ."\n"."Date: ".date('d/m/Y')."\nName: ".$name."\n";
         foreach($columns as $key => $label) {
             $today = $todaysTally[$key] ?? 'N/A';
             $total = $totalTally[$key] ?? 'N/A';
@@ -101,7 +116,5 @@
     <div class="text-center mt-4"> <!-- Center the button and add some top margin -->
         <a href="https://wa.me/?text={{ $message }}" class="btn btn-success" target="_blank">Share on WhatsApp</a>
     </div>
-    
-
 </div>
 @endsection

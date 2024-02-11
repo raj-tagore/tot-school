@@ -61,7 +61,6 @@ class TallyController extends Controller
                 TotalTally::where('user_id', $validatedData['user_id'])->update($existingValues);
             }
             else {
-                Arr::forget($validatedData, 'created_at');
                 Arr::forget($validatedData, 'updated_at');
                 TotalTally::create($validatedData);
             }
