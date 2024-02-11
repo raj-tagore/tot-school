@@ -88,5 +88,20 @@
             </div>
         @endforeach
     </div>
+    @php
+        $message = "TOT School Report for: ". date('d-m-y') ."\n";
+        foreach($columns as $key => $label) {
+            $today = $todaysTally[$key] ?? 'N/A';
+            $total = $totalTally[$key] ?? 'N/A';
+            $message .= "- " . $label['label'] . ": " . $today . " / " . $total . "\n";
+        }
+        $message = urlencode($message); // Use rawurlencode to ensure proper encoding of spaces and symbols
+    @endphp
+
+    <div class="text-center mt-4"> <!-- Center the button and add some top margin -->
+        <a href="https://wa.me/?text={{ $message }}" class="btn btn-success" target="_blank">Share on WhatsApp</a>
+    </div>
+    
+
 </div>
 @endsection
