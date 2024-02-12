@@ -48,6 +48,7 @@ class TallyController extends Controller
             return redirect()->route('tally'); 
         } else {
             $newEntry = DailyTally::create($validatedData);
+            error_log($newEntry);
             if (TotalTally::where('user_id', $validatedData['user_id'])->exists()) {
                 $existingValues = TotalTally::where('user_id', $validatedData['user_id'])->first()->toArray();
                 $columns = config('columns.columns');
@@ -57,8 +58,9 @@ class TallyController extends Controller
                 TotalTally::where('user_id', $validatedData['user_id'])->update($existingValues);
             }
             else {
-                Arr::forget($validatedData, 'updated_at');
-                TotalTally::create($validatedData);
+                $newTotal = TotalTally::create($validatedData);
+                $newTotal->setCreatedAt(Carbon::now());
+                $newTotal->save();
             }
             return redirect()->route('tally');
         }
