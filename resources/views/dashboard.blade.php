@@ -105,10 +105,9 @@
     </div>
 </div>
 <script>
-
 const modeSelector = document.getElementById('modeSelector');
 
-allcharts = [];
+let allcharts = [];
 
 let xValues = @json($weeks);
 let yValues = @json($weeklySums);
@@ -116,13 +115,52 @@ let yValues = @json($weeklySums);
 document.addEventListener('DOMContentLoaded', drawGraphs);
 modeSelector.addEventListener('change', drawGraphs);
 
-function drawGraphs() {
+function generateColors(n) {
+    const predefinedColors = [
+        'rgba(255, 99, 132, 0.6)',   // Red
+        'rgba(54, 162, 235, 0.6)',   // Blue
+        'rgba(255, 206, 86, 0.6)',   // Yellow
+        'rgba(75, 192, 192, 0.6)',   // Green
+        'rgba(153, 102, 255, 0.6)',  // Purple
+        'rgba(255, 159, 64, 0.6)',   // Orange
+        'rgba(199, 199, 199, 0.6)',  // Grey
+    ];
 
+    const colors = [];
+
+    for (let i = 0; i < n; i++) {
+        colors.push(predefinedColors[i % predefinedColors.length]);
+    }
+
+    return colors;
+}
+
+function generateBorderColors(n) {
+    const predefinedColors = [
+        'rgba(255, 99, 132, 1)',   // Red
+        'rgba(54, 162, 235, 1)',   // Blue
+        'rgba(255, 206, 86, 1)',   // Yellow
+        'rgba(75, 192, 192, 1)',   // Green
+        'rgba(153, 102, 255, 1)',  // Purple
+        'rgba(255, 159, 64, 1)',   // Orange
+        'rgba(159, 159, 159, 1)',  // Grey
+    ];
+
+    const colors = [];
+
+    for (let i = 0; i < n; i++) {
+        colors.push(predefinedColors[i % predefinedColors.length]);
+    }
+
+    return colors;
+}
+
+function drawGraphs() {
     const mode = modeSelector.value;
 
     // Destroy all charts
     allcharts.forEach(chart => {
-        Chart.getChart(chart).destroy();
+        chart.destroy();
     });
 
     allcharts = [];
@@ -140,26 +178,36 @@ function drawGraphs() {
     }
 
     @foreach($columns as $key => $value)
-        (async function() {
-        new Chart(
-            document.getElementById('graph_{{$key}}').getContext('2d'),
-            {
-            type: 'bar',
-            data: {
-                labels: xValues,
-                datasets: [
-                {
-                    label: mode+' {{$value['label']}}',
-                    data: yValues['{{$key}}'],
-                }
-                ]
-            }
-            }
-        );
+        (function() {
+            const dataPoints = yValues['{{$key}}'];
+            const backgroundColors = generateColors(dataPoints.length);
+            const borderColors = generateBorderColors(dataPoints.length);
+
+            const ctx = document.getElementById('graph_{{$key}}').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        label: mode + ' {{$value['label']}}',
+                        data: dataPoints,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                },
+            });
+            allcharts.push(chart);
         })();
-        allcharts.push('graph_{{$key}}');
     @endforeach
 }
-
 </script>
+
 @endsection
