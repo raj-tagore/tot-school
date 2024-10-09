@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\ViewRecord;
 use App\Models\DailyTally;
 use App\Models\User;
+use App\Models\CustomSettings;
 use Carbon\Carbon; // For handling date operations
 use DatePeriod;
 use DateInterval;
@@ -20,6 +21,8 @@ class ViewUser extends ViewRecord
     {
         $user = $this->record;
         $userDashboardData = $this->getUserDashboardData($user);
+
+        $zoom_link = CustomSettings::where('name', 'Zoom meeting link')->first();
 
         return [
             'user' => $user,
