@@ -35,6 +35,7 @@ class ViewUser extends ViewRecord
             'monthLabels' => $userDashboardData['monthLabels'],
             'quarterlySums' => $userDashboardData['quarterlySums'],
             'quarterLabels' => $userDashboardData['quarterLabels'],
+            'zoom_link' => $zoom_link,
         ];
     }
 
