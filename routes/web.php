@@ -28,3 +28,7 @@ Route::post('/tally', [TallyController::class, 'store'])->name('log-tally');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/leaderboard', [App\Http\Controllers\LeaderboardController::class, 'index'])->name('leaderboard');
+
+Route::get('/leaderboard/{key}', [App\Http\Controllers\LeaderboardController::class, 'show'])->name('leaderboard.show');

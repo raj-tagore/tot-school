@@ -18,6 +18,7 @@
        
     <!-- Bootstrap Bundle with Popper -->
     <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -38,11 +39,17 @@
                         @guest
                         @else 
                             <li class="nav-item">
+                                <a class="nav-link" href="/home">Home</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="/tally">Daily Form</a>
                             </li>  
                             <li class="nav-item">
                                 <a class="nav-link" href="/dashboard">Dashboard</a>
                             </li>   
+                            <li class="nav-item">
+                                <a class="nav-link" href="/leaderboard">Leaderboard</a>
+                            </li>
                         @endguest
                     </ul>
 
@@ -62,6 +69,13 @@
                                 </li>
                             @endif
                         @else
+                            @auth
+                                @if (auth()->user()->admin)
+                                    <li class="nav-item">
+                                        <a class="nav-link btn border" href="/admin"> Go to Admin Panel</a>
+                                    </li>
+                                @endif
+                            @endauth
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -83,7 +97,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> 
 
         <main class="py-4">
             @yield('content')

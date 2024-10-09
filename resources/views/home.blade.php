@@ -4,7 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card m-3 border border-danger">
+                <div class="card-header text-danger">Announcement</div>
+                <div class="card-body">
+                    <p>{{$announcement['value']}}</p>
+                </div>
+            </div>
+            <div class="card m-3">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
@@ -19,6 +25,7 @@
                     <a href="/dashboard" class="btn border m-3">Go to Dashboard</a>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

@@ -1,0 +1,152 @@
+
+## From the tallycontroller--------------------------
+
+if (TotalTally::where('user_id', $validatedData['user_id'])->exists()) {
+    $existingValues = TotalTally::where('user_id', $validatedData['user_id'])->first()->toArray();
+    $columns = config('columns.columns');
+    foreach ($columns as $column => $data) {
+        $existingValues[$column] = $existingValues[$column] + $validatedData[$column];
+    }
+    TotalTally::where('user_id', $validatedData['user_id'])->update($existingValues);
+}
+else {
+    $newTotal = TotalTally::create($validatedData);
+    $newTotal->setCreatedAt(Carbon::now());
+    $newTotal->save();
+}
+
+## From dashboardcontroller -------------------------
+
+if ($totalTally === null) {
+    // Handle the case where no object is found
+    // For example, create a new TotalTally object or set a default value
+    $totalTally = new TotalTally();
+    $totalTally->user_id = $user_id;
+    $totalTally->setCreatedAt(Carbon::now());
+    // Set other properties as required
+    $totalTally->save();
+}
+
+## Dashboard top5 leaderboard ------------------------
+
+<h2 class="display-8 pb-3">Leaderboards</h2>
+    <div class="row border-bottom mb-5">
+        <div class="col-lg-4">
+            <h5>Top 5 Users by Calls</h5>
+            <table class="table border">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Total Calls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $topCalls = $allUsers->sortByDesc('calls'); @endphp
+                    @foreach($topCalls->take(5) as $user)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->calls }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-lg-4">
+            <h5>Top 5 Users by Meetings</h5>
+            <table class="table border">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Meetings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $topCalls = $allUsers->sortByDesc('meetings'); @endphp
+                    @foreach($topCalls->take(5) as $user)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->meetings }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-lg-4">
+            <h5>Top 5 Users by Premium</h5>
+            <table class="table border">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Premium</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    @php $topCalls = $allUsers->sortByDesc('premium'); @endphp
+                    @foreach($topCalls->take(5) as $user)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->premium }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+
+
+## Getting all users totals data:
+
+
+$allUsers = DailyTally::select('user_id')
+    ->selectRaw($selectRaw)
+    ->groupBy('user_id')
+    ->with('user') // Eager load the related User model
+    ->get();
+dd($allUsers);
+
+
+## $weeklySums calculation (it works) -----------------------
+
+$weeklyData = $userData->groupBy(function($item) {
+    return Carbon::parse($item->date)->format('oW'); // 'o' for ISO-8601 year, 'W' for week number
+});
+$weeklySums = [];
+
+foreach ($weeklyData as $yearWeek => $items) {
+    $weekNumber = substr($yearWeek, -2); // Extract week number
+    $year = substr($yearWeek, 0, 4);     // Extract year
+    // Get the start date of the week
+    $startOfWeek = Carbon::now()->setISODate($year, $weekNumber)->startOfWeek();
+    $weekSums = [
+        'year_week' => $yearWeek,
+        'start_date' => $startOfWeek->format('Y-m-d'),
+    ];
+    foreach ($fieldsToSum as $field) {
+        $weekSums[$field] = $items->sum($field);
+    }
+    $weeklySums[] = $weekSums;
+}
+
+dd($weeklySums);
+
+## Labelling the months and quarters: -----------------------
+
+$periodLabels = array_map(function ($date) {
+    return Carbon::parse($date)->format('M Y');
+}, $months);
+
+$periodLabels = array_map(function ($date) {
+    $carbonDate = Carbon::parse($date);
+    $year = $carbonDate->year;
+    $quarter = ceil($carbonDate->month / 3);
+    return 'Q' . $quarter . ' ' . $year;
+}, $quarters);

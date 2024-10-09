@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('total_tallies', function (Blueprint $table) {
-            $table->timestamp('created_at')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('admin')->default(false);
         });
     }
 
     public function down(): void
     {
-        Schema::table('total_tallies', function (Blueprint $table) {
-            $table->dropColumn('created_at');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('admin');
         });
     }
 };
