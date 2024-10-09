@@ -24,7 +24,7 @@ return [
         ],
         'meetings' => [
             'type' => 'number',
-            'label' => 'First Meetings',
+            'label' => 'Demonstrations',
             'required' => true,
         ],
         'letters' => [

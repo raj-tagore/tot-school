@@ -8,10 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('daily_tallies', function (Blueprint $table) {
+        Schema::dropIfExists('total_tallies');
+    }
+
+    public function down(): void
+    {
+        Schema::create('total_tallies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->date('date');
             $table->integer('calls')->default(0);
             $table->integer('leads')->default(0);
             $table->integer('phone_calls')->default(0);
@@ -22,14 +26,9 @@ return new class extends Migration
             $table->integer('proposals')->default(0);
             $table->integer('policies')->default(0);
             $table->integer('premium')->default(0);
-
-            // Foreign key constraint (adjust based on your actual users table and requirements)
+            $table->timestamp('created_at')->nullable();
+            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('daily_tallies');
     }
 };

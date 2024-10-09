@@ -1,22 +1,43 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Filament\Resources\UserResource\Pages;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
+use App\Filament\Resources\UserResource;
+use Filament\Resources\Pages\ViewRecord;
 use App\Models\DailyTally;
 use App\Models\User;
 use Carbon\Carbon; // For handling date operations
 use DatePeriod;
 use DateInterval;
-use App\Models\CustomSettings;
 
-class DashboardController extends Controller
+class ViewUser extends ViewRecord
 {
-    public function index(Request $request) {
+    protected static string $resource = UserResource::class;
 
-        $user_id = auth()->id();
-        $user = auth()->user();
+    public static string $view = 'dashboard';
+
+    protected function getViewData(): array
+    {
+        $user = $this->record;
+        $userDashboardData = $this->getUserDashboardData($user);
+
+        return [
+            'user' => $user,
+            'todaysTally' => $userDashboardData['todaysTally'],
+            'totalTally' => $userDashboardData['totalTally'],
+            'count' => $userDashboardData['count'],
+            'weeklySums' => $userDashboardData['weeklySums'],
+            'weeks' => $userDashboardData['weeks'],
+            'monthlySums' => $userDashboardData['monthlySums'],
+            'monthLabels' => $userDashboardData['monthLabels'],
+            'quarterlySums' => $userDashboardData['quarterlySums'],
+            'quarterLabels' => $userDashboardData['quarterLabels'],
+        ];
+    }
+
+    protected function getUserDashboardData($user) {
+
+        $user_id = $user->id;
         $todaysTally = DailyTally::where('user_id', $user_id)->where('date', Carbon::today())->first();
 
         $fieldsToSum = array_keys(config('columns.columns'));
@@ -138,21 +159,17 @@ class DashboardController extends Controller
             return 'Q' . $quarter . ' ' . $year;
         }, $quarters);
 
-        $zoom_link = CustomSettings::where('name', 'Zoom meeting link')->first();
+        return [
+            'todaysTally' => $todaysTally,
+            'totalTally' => $totalTally,
+            'count' => $count,
+            'weeklySums' => $weeklySums,
+            'weeks' => $weeks,
+            'monthlySums' => $monthlySums,
+            'monthLabels' => $monthLabels,
+            'quarterlySums' => $quarterlySums,
+            'quarterLabels' => $quarterLabels,
+        ];
 
-        return view('dashboard', [
-                                'user' => $user,
-                                'userData' => $userData,
-                                'totalTally' => $totalTally,
-                                'todaysTally' => $todaysTally, 
-                                'count' => $count,
-                                'weeks' => $weeks,
-                                'weeklySums' => $weeklySums,
-                                'monthLabels' => $monthLabels,
-                                'monthlySums' => $monthlySums,
-                                'quarterLabels' => $quarterLabels,
-                                'quarterlySums' => $quarterlySums,
-                                'zoom_link' => $zoom_link
-                            ]);
     }
 }
