@@ -61,6 +61,20 @@ class UserResource extends Resource
                     ->label('Confirm Password')
                     ->minLength(8)
                     ->dehydrated(false), 
+                
+                TextInput::make('presents')
+                    ->label('Presents')
+                    ->numeric()
+                    ->minValue(0)
+                    ->required()
+                    ->default(0),
+
+                TextInput::make('total')
+                    ->label('Total Lectures')
+                    ->numeric()
+                    ->minValue(0)
+                    ->required()
+                    ->default(0),
             ]);
     }
 
@@ -80,6 +94,12 @@ class UserResource extends Resource
                     ->label('Created At')
                     ->sortable()
                     ->dateTime('M d, Y'),
+                Tables\Columns\TextColumn::make('presents')
+                    ->label('Presents')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('total')
+                    ->label('Total Lectures')
+                    ->sortable(),
             ])
             ->filters([
                 //

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TallyController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/leaderboard', [App\Http\Controllers\LeaderboardController::class, 'index'])->name('leaderboard');
 
 Route::get('/leaderboard/{key}', [App\Http\Controllers\LeaderboardController::class, 'show'])->name('leaderboard.show');
+
+Route::get('/attendance/mark', [AttendanceController::class, 'markAttendance'])->name('attendance.mark')->middleware('auth');

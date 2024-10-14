@@ -17,6 +17,9 @@ class User extends Authenticatable
         'email',
         'password',
         'admin',
+        'presents',
+        'total',
+        'last_attendance_date',
     ];
 
     protected $hidden = [
@@ -28,6 +31,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'admin' => 'boolean',
+        'presents' => 'integer',
+        'total' => 'integer',
+        'last_attendance_date' => 'date',
     ];
 
     public function canAccessFilament(): bool

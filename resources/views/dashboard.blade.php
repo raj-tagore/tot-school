@@ -32,8 +32,16 @@
         <div class="col-6 col-md-4 col-lg-2 mb-4"> <!-- Adjust sizes here -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"> {{ $count }} / {{ $difference }} </h5>
+                    <h5 class="card-title"> {{ $user->presents }} / {{ $user->total }} </h5>
                     <p class="card-text"> Attendance </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4"> <!-- Adjust sizes here -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ $difference }} </h5>
+                    <p class="card-text"> Days Since Joined </p>
                 </div>
             </div>
         </div>
@@ -51,7 +59,7 @@
 
     <div class="text-center mt-4 pb-4 border-bottom"> <!-- Center the button and add some top margin -->
         <a href="https://wa.me/?text={{ $message }}" class="btn btn-success" target="_blank">Share on WhatsApp</a>
-        <a href="{{$zoom_link['value']}}" class="btn btn-info" target="_blank">Open Today's Zoom Lecture</a>
+        <a href="{{ route('attendance.mark') }}" class="btn btn-info" target="_blank">Open Today's Zoom Lecture</a>
     </div>
     <h2 class="display-8 m-3 pb-3">Analysis Reports</h2>
     <div class="row justify-content-center">
