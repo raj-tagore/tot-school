@@ -22,7 +22,6 @@ class AttendanceController extends Controller
             // User is admin, increment 'total' for all users
             // Check if the admin has already incremented 'total' today
             if (!$user->last_attendance_date || !$user->last_attendance_date->isSameDay($today)) {
-                dd($user->last_attendance_date, $today, $user->last_attendance_date !== $today);
                 User::query()->increment('total');
                 // Update admin's last attendance date
                 $user->update(['last_attendance_date' => $today]);
