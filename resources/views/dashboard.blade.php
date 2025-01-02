@@ -84,7 +84,7 @@
         <div class="col-6 col-md-4 col-lg-2 mb-4"> <!-- Adjust sizes here -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ ($totalTally['policies'] != 0) ?
+                    <h5 class="card-title">{{ ($totalTally['meetings'] != 0) ?
                         round($totalTally['policies']/$totalTally['meetings']*100) : 0 }}%</h5>
                     <p class="card-text">Closing Rate</p>
                 </div>
