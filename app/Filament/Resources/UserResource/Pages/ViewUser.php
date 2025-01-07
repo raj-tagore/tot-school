@@ -36,6 +36,8 @@ class ViewUser extends ViewRecord
             'quarterlySums' => $userDashboardData['quarterlySums'],
             'quarterLabels' => $userDashboardData['quarterLabels'],
             'zoom_link' => $zoom_link,
+            'thisYearsTotal'  => $userDashboardData['thisYearsTotal'],
+            'lastYearsTotal'  => $userDashboardData['lastYearsTotal'],
         ];
     }
 
@@ -57,6 +59,31 @@ class ViewUser extends ViewRecord
             ->first();
         $totalTally = collect($totalTally->toArray());
         $totalTally->put('name', $user->name);
+
+        // 4. Get this year's total (for 2025)
+        $thisYearsTotal = DailyTally::where('user_id', $user_id)
+            ->whereYear('date', 2025)
+            ->selectRaw($selectRaw)
+            ->first();
+        // Handle the case if it's null
+        if (!$thisYearsTotal) {
+            // If no record, fill with zeros
+            $thisYearsTotal = array_fill_keys($fieldsToSum, 0);
+        } else {
+            // Convert to collection
+            $thisYearsTotal = collect($thisYearsTotal->toArray());
+        }
+
+        // 5. Get last year's total (for 2024)
+        $lastYearsTotal = DailyTally::where('user_id', $user_id)
+            ->whereYear('date', 2024)
+            ->selectRaw($selectRaw)
+            ->first();
+        if (!$lastYearsTotal) {
+            $lastYearsTotal = array_fill_keys($fieldsToSum, 0);
+        } else {
+            $lastYearsTotal = collect($lastYearsTotal->toArray());
+        }
 
         $count = DailyTally::where('user_id', $user_id)->count();
 
@@ -173,6 +200,8 @@ class ViewUser extends ViewRecord
             'monthLabels' => $monthLabels,
             'quarterlySums' => $quarterlySums,
             'quarterLabels' => $quarterLabels,
+            'thisYearsTotal' => $thisYearsTotal,
+            'lastYearsTotal' => $lastYearsTotal,
         ];
 
     }

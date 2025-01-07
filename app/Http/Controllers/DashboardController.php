@@ -13,37 +13,70 @@ use App\Models\CustomSettings;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request) {
-
+    public function index(Request $request)
+    {
         $user_id = auth()->id();
         $user = auth()->user();
-        $todaysTally = DailyTally::where('user_id', $user_id)->where('date', Carbon::today())->first();
+        $todaysTally = DailyTally::where('user_id', $user_id)
+                                ->where('date', Carbon::today())
+                                ->first();
 
+        // 1. Get the fields we need to sum
         $fieldsToSum = array_keys(config('columns.columns'));
 
+        // 2. Build the SELECT part (SUM(...) as ...)
         $selectStatements = array_map(function ($field) {
-            return "SUM(`$field`) as `$field`";
+            return "COALESCE(SUM(`$field`), 0) as `$field`";
         }, $fieldsToSum);
-
         $selectRaw = implode(', ', $selectStatements);
 
+        // 3. Get the total sums for all time
         $totalTally = DailyTally::where('user_id', $user_id)
             ->selectRaw($selectRaw)
             ->first();
         $totalTally = collect($totalTally->toArray());
         $totalTally->put('name', $user->name);
 
+        // 4. Get this year's total (for 2025)
+        $thisYearsTotal = DailyTally::where('user_id', $user_id)
+            ->whereYear('date', 2025)
+            ->selectRaw($selectRaw)
+            ->first();
+        // Handle the case if it's null
+        if (!$thisYearsTotal) {
+            // If no record, fill with zeros
+            $thisYearsTotal = array_fill_keys($fieldsToSum, 0);
+        } else {
+            // Convert to collection
+            $thisYearsTotal = collect($thisYearsTotal->toArray());
+        }
+
+        // 5. Get last year's total (for 2024)
+        $lastYearsTotal = DailyTally::where('user_id', $user_id)
+            ->whereYear('date', 2024)
+            ->selectRaw($selectRaw)
+            ->first();
+        if (!$lastYearsTotal) {
+            $lastYearsTotal = array_fill_keys($fieldsToSum, 0);
+        } else {
+            $lastYearsTotal = collect($lastYearsTotal->toArray());
+        }
+
         $count = DailyTally::where('user_id', $user_id)->count();
 
+        // 6. If today's tally is null, prepare a zero-filled version
         if ($todaysTally === null) {
             $todaysTally = collect(config('columns.columns'))->mapWithKeys(function ($item, $key) {
                 return [$key => 0];
             });
         }
-        
+
+        // 7. Get all data for the user
         $userData = DailyTally::where('user_id', $user_id)->get();
 
-        // Weekly data computation
+        // ---------------------------------------------------------
+        // Weekly data computation (as in your original code)
+        // ---------------------------------------------------------
         $startWeek = $user->created_at->startOfWeek();
         $endWeek = Carbon::now()->startOfWeek();
         $weeks = [];
@@ -52,7 +85,7 @@ class DashboardController extends Controller
         foreach ($period as $date) {
             $weeks[] = $date->format('Y-m-d');
         }
-        
+
         $weeklySums = [];
         foreach ($fieldsToSum as $field) {
             $weeklySums[$field] = array_fill(0, count($weeks), 0);
@@ -69,7 +102,9 @@ class DashboardController extends Controller
             }
         }
 
-        // Monthly data computation
+        // ---------------------------------------------------------
+        // Monthly data computation (as in your original code)
+        // ---------------------------------------------------------
         $joinYear = $user->created_at->year;
         $startMonth = Carbon::create($joinYear, 1, 1); // Start from January of the join year
         $endMonth = Carbon::now()->startOfMonth();
@@ -102,7 +137,9 @@ class DashboardController extends Controller
             return Carbon::parse($date)->format('M Y');
         }, $months);
 
-        // Quaterly data computation
+        // ---------------------------------------------------------
+        // Quarterly data computation (as in your original code)
+        // ---------------------------------------------------------
         $startQuarter = Carbon::create($joinYear, 1, 1); // Start from Q1 of the join year
         $endQuarter = Carbon::now()->firstOfQuarter();
 
@@ -138,21 +175,27 @@ class DashboardController extends Controller
             return 'Q' . $quarter . ' ' . $year;
         }, $quarters);
 
+        // 8. Optionally get your Zoom link
         $zoom_link = CustomSettings::where('name', 'Zoom meeting link')->first();
 
+        // 9. Return all data to your view
         return view('dashboard', [
-                                'user' => $user,
-                                'userData' => $userData,
-                                'totalTally' => $totalTally,
-                                'todaysTally' => $todaysTally, 
-                                'count' => $count,
-                                'weeks' => $weeks,
-                                'weeklySums' => $weeklySums,
-                                'monthLabels' => $monthLabels,
-                                'monthlySums' => $monthlySums,
-                                'quarterLabels' => $quarterLabels,
-                                'quarterlySums' => $quarterlySums,
-                                'zoom_link' => $zoom_link
-                            ]);
+            'user'            => $user,
+            'userData'        => $userData,
+            'totalTally'      => $totalTally,
+            'todaysTally'     => $todaysTally,
+            'count'           => $count,
+            'weeks'           => $weeks,
+            'weeklySums'      => $weeklySums,
+            'monthLabels'     => $monthLabels,
+            'monthlySums'     => $monthlySums,
+            'quarterLabels'   => $quarterLabels,
+            'quarterlySums'   => $quarterlySums,
+            'zoom_link'       => $zoom_link,
+            // Our two new totals:
+            'thisYearsTotal'  => $thisYearsTotal,
+            'lastYearsTotal'  => $lastYearsTotal,
+        ]);
     }
+
 }
