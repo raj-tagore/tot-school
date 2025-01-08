@@ -54,8 +54,9 @@
         $message = "TOT School Report for: Day ". $difference ."\n"."Date: ".date('d/m/Y')."\nName: ".$name."\n";
         foreach($columns as $key => $label) {
             $today = $todaysTally[$key] ?? 'N/A';
-            $total = $totalTally[$key] ?? 'N/A';
-            $message .= "- " . $label['label'] . ": " . $today . " / " . $total . "\n";
+            $total = $thisYearsTotal[$key] ?? 'N/A';
+            $lastyear = $lastYearsTotal[$key] ?? 'N/A';
+            $message .= "- " . $label['label'] . ": " . $today . " / " . $total . " / " . $lastyear . "\n";
         }
         $message = urlencode($message); // Use rawurlencode to ensure proper encoding of spaces and symbols
     @endphp
