@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DailyTally;
 use Illuminate\Support\Arr;
+use Carbon\Carbon;
 
 class LeaderboardController extends Controller
 {
@@ -21,7 +22,8 @@ class LeaderboardController extends Controller
         $allUsers = DailyTally::select('user_id')
             ->selectRaw($selectRaw)
             ->join('users', 'daily_tallies.user_id', '=', 'users.id')
-            ->where('admin', false) 
+            ->where('admin', false)
+            ->where('daily_tallies.date', '>=', Carbon::now()->subMonths(3)->format('Y-m-d'))
             ->groupBy('user_id')
             ->with('user') 
             ->get();
@@ -42,7 +44,8 @@ class LeaderboardController extends Controller
         $allUsers = DailyTally::select('user_id')
             ->selectRaw($selectRaw)
             ->join('users', 'daily_tallies.user_id', '=', 'users.id')
-            ->where('users.admin', false) 
+            ->where('users.admin', false)
+            ->where('daily_tallies.date', '>=', Carbon::now()->subMonths(3)->format('Y-m-d'))
             ->groupBy('user_id')
             ->with('user') 
             ->get();

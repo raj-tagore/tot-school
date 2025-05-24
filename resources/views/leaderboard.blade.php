@@ -7,7 +7,7 @@
     @endphp
         
     <h2 class="display-8 pb-3">Leaderboards</h2>
-    <!--p> Stats only displayed for the last 90 days.</p-->
+    <p> Stats only displayed for the last 90 days.</p>
     <div class="row border-bottom mb-5">
 
     @foreach($columns as $key => $values)
